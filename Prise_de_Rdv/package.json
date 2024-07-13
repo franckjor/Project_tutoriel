@@ -1,0 +1,38 @@
+{
+  "name": "prise_de_rdv",
+  "version": "1.0.0",
+  "description": "Application de prise de rendez vous avec des medecin depuis chez sois",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js",
+    "lint": "eslint.",
+    "format": "prettier --write.",
+    "precommit": "lint-staged",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/franckjor"
+  },
+  "author": "Franck Jordan",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "email-templates": "^11.1.1",
+    "express": "^4.19.2",
+    "express-fileupload": "^1.5.0",
+    "express-mailer": "^0.3.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.0",
+    "mongoose-unique-validator": "^5.0.1",
+    "nodemailer": "^6.9.14",
+    "nodemailer-pug-engine": "^2.0.1",
+    "nodemon": "^3.1.4",
+    "pug": "^3.0.3",
+    "react-redux": "^9.1.2",
+    "redux": "^5.0.1"
+  }
+}
