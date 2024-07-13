@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
   lastname: { type: String, required: true },
   email: { 
     type: String,
-    required: false,
+    required: true,
     trim: true,
     sparse: true,
     index: {
@@ -17,9 +17,9 @@ const userSchema = mongoose.Schema({
       default: null,
     }
   },
-  phone: { type: String, required: false },
+  phone: { type: String, required: true },
   active: { type: Boolean, required: true },
-  password: { type: String, required: false },
+  password: { type: String, required: true },
   status: { type: String, required: true },
   doctorId: [String],
 });

@@ -81,30 +81,82 @@ exports.login = (req, res, next) => {
 };
 
 // signin user
+// exports.signin = (req, res, next) => {
+//   bcrypt
+//     .hash(req.body.password, 10)
+//     .then(hash => {
+//       const user = new User({
+//         firstname: req.body.firstname,
+//         lastname: req.body.lastname,
+//         phone: req.body.phone,
+//         active: true,
+//         email: req.body.email.trim().toLowerCase(),
+//         password: hash,
+//         status: req.body.status,
+//         doctorId: [req.body.doctorId],
+//       });
+//       user
+//         .save()
+//         .then(user => {
+//           res.status(201).json({
+//             message: "Utilisateur bien créé.",
+//           });
+//           newUserConfirmMail(user);
+//         })
+//         .catch(error => {
+//           res.status(400).json({
+//             error,
+//           });
+//         });
+//     })
+//     .catch(error => {
+//       res.status(500).json({
+//         error,
+//       });
+//     });
+// };
+
+// signin user
 exports.signin = (req, res, next) => {
-  bcrypt
-    .hash(req.body.password, 10)
-    .then(hash => {
-      const user = new User({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        phone: req.body.phone,
-        active: true,
-        email: req.body.email.trim().toLowerCase(),
-        password: hash,
-        status: req.body.status,
-        doctorId: [req.body.doctorId],
-      });
-      user
-        .save()
-        .then(user => {
-          res.status(201).json({
-            message: "Utilisateur bien créé.",
+  // Vérifier si l'email existe déjà
+  User.findOne({ email: req.body.email.trim().toLowerCase() })
+    .then(existingUser => {
+      if (existingUser) {
+        return res.status(400).json({
+          error: "Email déjà utilisé",
+        });
+      }
+
+      // Hacher le mot de passe
+      bcrypt.hash(req.body.password, 10)
+        .then(hash => {
+          const user = new User({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            phone: req.body.phone,
+            active: true,
+            email: req.body.email.trim().toLowerCase(),
+            password: hash,
+            status: req.body.status,
+            doctorId: [req.body.doctorId],
           });
-          newUserConfirmMail(user);
+
+          // Enregistrer le nouvel utilisateur
+          user.save()
+            .then(user => {
+              res.status(201).json({
+                message: "Utilisateur bien créé.",
+              });
+              newUserConfirmMail(user);
+            })
+            .catch(error => {
+              res.status(400).json({
+                error,
+              });
+            });
         })
         .catch(error => {
-          res.status(400).json({
+          res.status(500).json({
             error,
           });
         });
@@ -115,6 +167,7 @@ exports.signin = (req, res, next) => {
       });
     });
 };
+
 
 // method to create newUser
 exports.createUser = (req, res, next) => {
